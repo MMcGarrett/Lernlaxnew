@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const steps = [
   { id: 'section-1', title: 'Start', number: '01' },
-  { id: 'section-2', title: 'Herausforderungen', number: '02' },
+  { id: 'challenges', title: 'Herausforderungen', number: '02' },
   { id: 'section-3', title: 'Dein Weg', number: '03' },
   { id: 'section-4', title: 'Tools & Ressourcen', number: '04' },
   { id: 'section-5', title: 'Inspiration', number: '05' },

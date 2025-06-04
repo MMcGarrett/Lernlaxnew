@@ -6,6 +6,7 @@ import HeaderLogo from "@/components/HeaderLogo";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Start from "@/components/Start";
+import ChallengesSection from "@/components/Challanges";
 
 export default function HomePage() {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -36,6 +37,7 @@ export default function HomePage() {
         {showNavbar && <Navbar />}
         <Hero />
         <Start />
+        <ChallengesSection />
       </ScrollEffect>
     </main>
   );
