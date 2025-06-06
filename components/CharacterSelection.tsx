@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+type CharacterSelectionProps = {
+  onCharacterSelect: (characterName: string) => void;
+};
+
+
 const characters = [
   {
+    id:"tom",
     name: 'Tom der Student',
     img: '/images/characters/tom.png',
     gender: 'maennlich',
@@ -11,6 +17,7 @@ const characters = [
       'Tom studiert im Vollzeitstudium an einer Universität. Neben den Vorlesungen arbeitet er als Werkstudent, um sich sein Studium zu finanzieren.',
   },
   {
+    id:"luca",
     name: 'Luca der Azubi',
     img: '/images/characters/luca.png',
     gender: 'maennlich',
@@ -18,6 +25,7 @@ const characters = [
       'Luca ist in einer Ausbildung und steht täglich im Betrieb, während er regelmäßig die Berufsschule besucht.',
   },
   {
+    id:"max",
     name: 'Max der Duale Student',
     img: '/images/characters/max.png',
     gender: 'maennlich',
@@ -25,6 +33,7 @@ const characters = [
       'Max macht ein duales Studium und wechselt zwischen Vorlesungen und intensiven Arbeitsphasen im Unternehmen.',
   },
   {
+    id:"tanja",
     name: 'Tanja die Studentin',
     img: '/images/characters/tanja.png',
     gender: 'weiblich',
@@ -32,6 +41,7 @@ const characters = [
       'Tanja studiert im Vollzeitstudium an einer Universität. Neben den Vorlesungen arbeitet sie als Werkstudentin, um sich ihr Studium zu finanzieren.',
   },
   {
+    id:"maren",
     name: 'Maren die Duale Studentin',
     img: '/images/characters/maren.png',
     gender: 'weiblich',
@@ -39,6 +49,7 @@ const characters = [
       'Maren macht ein duales Studium und wechselt zwischen Vorlesungen und intensiven Arbeitsphasen im Unternehmen.',
   },
   {
+    id:"lisa",
     name: 'Lisa die Auszubildende',
     img: '/images/characters/lisa.png',
     gender: 'weiblich',
@@ -47,7 +58,7 @@ const characters = [
   },
 ];
 
-export default function CharacterSelection() {
+export default function CharacterSelection({ onCharacterSelect }: CharacterSelectionProps) {
   const [selectedGender, setSelectedGender] = useState<'weiblich' | 'divers' | 'maennlich'>('maennlich');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [shakeStates, setShakeStates] = useState<boolean[]>(
@@ -87,7 +98,8 @@ export default function CharacterSelection() {
 
   const handleSelect = (index: number) => {
     setSelectedIndex(index);
-    console.log('Ausgewählt:', characters[index].name);
+    const selectedName = characters[index].id;
+    onCharacterSelect(selectedName);
   };
 
   const filteredCharacters = characters.filter((char) => {
@@ -98,7 +110,7 @@ export default function CharacterSelection() {
   });
 
   return (
-    <section id="deinWeg" className="bg-[#324F4A] text-white py-16 px-6">
+    <section className="bg-[#324F4A] text-white py-16 px-6">
       <div className="max-w-6xl mx-auto text-center">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 gap-4">
           <h2 className="text-2xl md:text-3xl font-semibold text-center md:text-left">
