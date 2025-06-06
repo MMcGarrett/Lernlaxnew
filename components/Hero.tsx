@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useState } from "react";
 
 const characters = [
-  { key: "maenlich", label: "Männlich", src: "/maenlich.png" },
-  { key: "divers", label: "Divers", src: "/divers.png" },
-  { key: "weiblich", label: "Weiblich", src: "/weiblich.png", flipped: true },
+  { key: "m", label: "Männlich", src: "/maennlich.png" },
+  { key: "d", label: "Divers", src: "/divers.png" },
+  { key: "w", label: "Weiblich", src: "/weiblich.png", flipped: true },
 ];
 
 export default function Hero() {

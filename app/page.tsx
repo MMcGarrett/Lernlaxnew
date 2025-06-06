@@ -8,6 +8,8 @@ import Hero from "@/components/Hero";
 import Start from "@/components/Start";
 import ChallengesSection from "@/components/Challanges";
 
+import Footer from "@/components/Footer";
+
 export default function HomePage() {
   const [showNavbar, setShowNavbar] = useState(false);
 
@@ -38,6 +40,8 @@ export default function HomePage() {
         <Hero />
         <Start />
         <ChallengesSection />
+        
+        <Footer />
       </ScrollEffect>
     </main>
   );
