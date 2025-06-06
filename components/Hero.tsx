@@ -1,60 +1,38 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
+'use client';
 
-const characters = [
-  { key: "m", label: "Männlich", src: "/maennlich.png" },
-  { key: "d", label: "Divers", src: "/divers.png" },
-  { key: "w", label: "Weiblich", src: "/weiblich.png", flipped: true },
-];
+import Image from 'next/image';
 
 export default function Hero() {
-  const [selected, setSelected] = useState<string>("divers");
-
-
   return (
-    <section className="flex flex-col justify-center px-6 sm:px-16 pt-2 sm:pt-4 md:pt-6 pb-10 relative min-h-screen text-white">
+    <section id='section-1' className="flex flex-col justify-center px-6 sm:px-16 pt-2 sm:pt-4 md:pt-6 pb-10 relative min-h-screen text-white">
       {/* Headline */}
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold max-w-2xl leading-snug text-left">
         Bekommst du Studium und Job auch nicht unter einen Hut?
       </h1>
 
-      {/* Charakter-Auswahl */}
-      <div className="mt-12 flex flex-col items-center text-center w-full">
-        <h2 className="text-lg sm:text-xl font-medium">Wähle deinen Charakter</h2>
+      {/* Neuer Content aus Start-Komponente */}
+      <div className="mt-12 flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl w-full">
+        {/* Textfeld */}
+        <div className="flex-1 text-left pl-[100px]">
+          <p className="text-lg leading-relaxed max-w-md">
+            Manchmal merken wir erst spät, wie viel wir tragen. Hier erfährst du,
+            <br />
+            warum es so wichtig ist, jetzt bewusst innezuhalten.
+          </p>
+        </div>
 
-        <div className="mt-6 flex flex-wrap justify-center gap-6 max-w-5xl">
-          {characters.map((char) => {
-            const isSelected = selected === char.key;
-            return (
-              <div
-                key={char.key}
-                onClick={() => setSelected(char.key)}
-                className={`cursor-pointer relative rounded-2xl overflow-hidden transition-opacity duration-300 ${
-                  selected && !isSelected ? "opacity-40" : "opacity-100"
-                }`}
-              >
-                <Image
-                  src={char.src}
-                  alt={char.label}
-                  width={256}
-                  height={384}
-                  className={`rounded-2xl ${
-                    char.flipped ? "transform -scale-x-100" : ""
-                  }`}
-                />
-                {/* Band */}
-                <div className="absolute bottom-0 left-0 w-full backdrop-blur-sm bg-black/60 text-white text-center py-1.5 text-sm font-semibold tracking-wide rounded-b-2xl">
-                    {char.label}
-                </div>
-
-                {/* Border bei Auswahl */}
-                {isSelected && (
-                  <div className="absolute inset-0 border-4 border-white rounded-2xl pointer-events-none" />
-                )}
-              </div>
-            );
-          })}
+        {/* Bildfeld */}
+        <div className="flex-1 flex justify-center">
+          <div className="rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
+            <Image
+              src="/sunrise.png"
+              alt="Sonnenaufgang"
+              width={600}
+              height={400}
+              className="object-cover w-full h-auto"
+              priority
+            />
+          </div>
         </div>
       </div>
 

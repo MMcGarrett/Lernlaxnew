@@ -5,8 +5,8 @@ import ScrollEffect from "@/components/ScrollEffect";
 import HeaderLogo from "@/components/HeaderLogo";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Start from "@/components/Start";
 import ChallengesSection from "@/components/Challanges";
+import CharacterSelection from "@/components/CharacterSelection";
 
 import Footer from "@/components/Footer";
 
@@ -24,7 +24,7 @@ export default function HomePage() {
       }
     );
 
-    const startSection = document.getElementById("section-1");
+    const startSection = document.getElementById("challenges");
     if (startSection) observer.observe(startSection);
 
     return () => {
@@ -38,9 +38,8 @@ export default function HomePage() {
         <HeaderLogo />
         {showNavbar && <Navbar />}
         <Hero />
-        <Start />
         <ChallengesSection />
-        
+        <CharacterSelection />
         <Footer />
       </ScrollEffect>
     </main>
