@@ -19,11 +19,24 @@ export default function RegisterPage() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Registrierung absenden
-    console.log(form)
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const res = await fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(form),
+  });
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    alert(result.error || 'Registrierung fehlgeschlagen');
+  } else {
+    alert('Registrierung erfolgreich!');
+    window.location.href = '/login';
   }
+};
 
   return (
     <div className="relative flex flex-col min-h-screen bg-[#1b2c29] text-white">

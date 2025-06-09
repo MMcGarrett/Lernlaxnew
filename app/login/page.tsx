@@ -9,10 +9,26 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Login-Logik
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      alert(result.error || 'Login fehlgeschlagen');
+      return;
+    }
+
+    alert(`Willkommen, ${result.user.first_name}!`);
+    // Optional Weiterleitung:
+    // window.location.href = '/dashboard';
+  };
 
   return (
     <div className="relative flex flex-col min-h-screen bg-[#1b2c29] text-white">
