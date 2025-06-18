@@ -25,9 +25,8 @@ export default function LoginPage() {
       return;
     }
 
-    alert(`Willkommen, ${result.user.first_name}!`);
-    // Optional Weiterleitung:
-    // window.location.href = '/dashboard';
+    //alert(`Willkommen, ${result.user.first_name}!`);
+    window.location.href = '/dashboard';
   };
 
   return (

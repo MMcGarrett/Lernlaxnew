@@ -1,45 +1,50 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcrypt';
-import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+import bcrypt from 'bcrypt'
+import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {
-  const { email, password } = await req.json();
+  const { email, password } = await req.json()
 
   if (!email || !password) {
     return NextResponse.json(
       { error: 'E-Mail oder Benutzername und Passwort erforderlich.' },
       { status: 400 }
-    );
+    )
   }
 
-  // Benutzer anhand von E-Mail oder Benutzername suchen
+  // Benutzer finden
   const user = await prisma.user.findFirst({
     where: {
       OR: [
         { email },
-        { username: email }, // beide aus demselben Eingabefeld
+        { username: email },
       ],
     },
-  });
+  })
 
   if (!user) {
     return NextResponse.json(
       { error: 'Benutzer nicht gefunden.' },
       { status: 401 }
-    );
+    )
   }
 
-  const isValid = await bcrypt.compare(password, user.password_hash);
+  const isValid = await bcrypt.compare(password, user.password_hash)
 
   if (!isValid) {
     return NextResponse.json(
       { error: 'Falsches Passwort.' },
       { status: 401 }
-    );
+    )
   }
 
-  // Benutzer ist authentifiziert – Cookie setzen
+  // ✅ Cookie mit userId + firstName
+  const sessionData = {
+    id: user.id,
+    firstName: user.first_name,
+  }
+
   const response = NextResponse.json({
     success: true,
     user: {
@@ -49,14 +54,14 @@ export async function POST(req: Request) {
       first_name: user.first_name,
       last_name: user.last_name,
     },
-  });
+  })
 
-  response.cookies.set('session_user', String(user.id), {
+  response.cookies.set('session_user', JSON.stringify(sessionData), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
     maxAge: 60 * 60 * 24, // 1 Tag
-  });
+  })
 
-  return response;
+  return response
 }
