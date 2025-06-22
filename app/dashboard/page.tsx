@@ -2,9 +2,9 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import HeaderLogo from '@/components/HeaderLogo'
 import Footer from '@/components/Footer'
-import Image from 'next/image'
 import DashboardTiles from '@/components/DashboardTiles'
 import MoodTracker from '@/components/MoodTracker'
+import LogoutButton from '@/components/LogoutButton'
 
 export default async function DashboardPage() {
   const cookieStore = cookies()
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
         </h1>
 
         <DashboardTiles />
-        <div className="h-16" /> {/* 2rem Platz */}
+        <div className="h-16" />
         <MoodTracker firstName={user.firstName} />
 
         {/* Tipp-Bereich */}
@@ -56,6 +56,9 @@ export default async function DashboardPage() {
       <div className="mt-auto">
         <Footer />
       </div>
+
+      {/* Schwebender Logout-Button */}
+      <LogoutButton />
     </div>
   )
 }
