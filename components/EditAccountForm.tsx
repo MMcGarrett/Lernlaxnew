@@ -57,8 +57,35 @@ export default function EditAccountForm({ initialData, avatarOptions }: Props) {
     setStatus(res.ok ? 'Avatar gespeichert' : `Fehler: ${data.error}`)
   }
 
+  const handlePasswordSubmit = async () => {
+    if (passwords.new.length < 6) {
+      setStatus('Passwort muss mindestens 6 Zeichen haben.')
+      return
+    }
+    if (passwords.new !== passwords.confirm) {
+      setStatus('Passwörter stimmen nicht überein.')
+      return
+    }
+
+    const res = await fetch('/api/account/password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        currentPassword: passwords.current,
+        newPassword: passwords.new,
+      }),
+    })
+
+    const data = await res.json()
+    setStatus(res.ok ? 'Passwort geändert' : `Fehler: ${data.error}`)
+    if (res.ok) {
+      setPasswords({ current: '', new: '', confirm: '' })
+    }
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Profilfelder */}
       <div className="space-y-4">
         <label className="block text-sm">Benutzername</label>
         <input name="username" value={form.username} onChange={handleChange} className="w-full p-2 rounded bg-gray-300 text-black" />
@@ -71,6 +98,7 @@ export default function EditAccountForm({ initialData, avatarOptions }: Props) {
         </button>
       </div>
 
+      {/* Avatarwahl */}
       <div className="flex flex-col items-center space-y-4">
         <label className="text-sm">Profilbild</label>
         <div className="relative w-40 h-40 rounded-2xl overflow-hidden cursor-pointer" onClick={() => setShowAvatars(!showAvatars)}>
@@ -107,6 +135,7 @@ export default function EditAccountForm({ initialData, avatarOptions }: Props) {
         </button>
       </div>
 
+      {/* Passwort ändern */}
       <div className="space-y-4">
         <label className="text-sm">Aktuelles Passwort</label>
         <input type="password" name="current" value={passwords.current} onChange={handlePasswordChange} className="w-full p-2 rounded bg-gray-300 text-black" />
@@ -114,7 +143,7 @@ export default function EditAccountForm({ initialData, avatarOptions }: Props) {
         <input type="password" name="new" value={passwords.new} onChange={handlePasswordChange} className="w-full p-2 rounded bg-gray-300 text-black" />
         <label className="text-sm">Neues Passwort wiederholen</label>
         <input type="password" name="confirm" value={passwords.confirm} onChange={handlePasswordChange} className="w-full p-2 rounded bg-gray-300 text-black" />
-        <button type="button" className="bg-red-600 text-white px-6 py-2 rounded-full w-full">
+        <button type="button" onClick={handlePasswordSubmit} className="bg-red-600 text-white px-6 py-2 rounded-full w-full">
           Ändern
         </button>
       </div>
