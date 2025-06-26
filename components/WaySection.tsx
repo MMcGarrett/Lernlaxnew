@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CharacterSelection from "@/components/CharacterSelection";
 import SectionModule from "@/components/SectionModule";
+import InteractiveFridge from '@/components/InteractiveFridge';
 
 interface WaySectionProps {
   selectedCharacter: string | null;
@@ -33,16 +34,16 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
 
           <SectionModule
             title="Dein Weg – Ernährung"
-            imageSrc="/images/placeholders/ernaehrung.png"
-            text="Eine ausgewogene Ernährung ist entscheidend für deine Konzentration..."
+            text="Eine ausgewogene Ernährung ist entscheidend für deine Konzentration…"
             sourceUrl="https://www.iu.de/magazin/gesunde-ernaehrung-fuer-studierende/"
             question={{
-              id: "food",
-              questionText: "Wie viel Gemüse isst du?",
-              options: ["3 Hände voll", "5 Hände voll", "7 Hände voll"],
+              id: 'food',
+              questionText: 'Wie viel Gemüse isst du?',
+              options: ['3 Hände voll', '5 Hände voll', '7 Hände voll'],
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter}.png`}
+            media={<InteractiveFridge />} 
           />
 
           <SectionModule
