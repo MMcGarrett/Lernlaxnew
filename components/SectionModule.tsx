@@ -7,6 +7,9 @@ import {
   useState,
 } from 'react';
 import QuestionBox from './QuestionBox';
+import BlurText from '@/assets/BlurTest';
+import SplitText from '@/assets/SplitText';
+
 
 type SectionModuleProps = {
   title: string;
@@ -112,7 +115,19 @@ function TextBox({
 }) {
   return (
     <div className="w-full text-left">
-      <p className="mb-4 text-base leading-relaxed">{text}</p>
+      <SplitText
+        text={text}
+        className="mb-4 text-base leading-relaxed"
+        delay={17}
+        duration={0.6}
+        ease="power3.out"
+        splitType="words"
+        from={{ opacity: 0, y: 40 }}
+        to={{ opacity: 1, y: 0 }}
+        threshold={0.1}
+        rootMargin="-100px"
+        textAlign="left"
+      />
 
       {sourceUrl && (
         <a

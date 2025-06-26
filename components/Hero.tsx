@@ -1,14 +1,18 @@
 'use client';
 
 import Image from 'next/image';
+import BlurText from '../assets/BlurTest';
 
 export default function Hero() {
   return (
     <section id='section-1' className="flex flex-col justify-center px-6 sm:px-16 pt-2 sm:pt-4 md:pt-6 pb-10 relative min-h-screen text-white">
-      {/* Headline */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold max-w-2xl leading-snug text-left">
-        Bekommst du Studium und Job auch nicht unter einen Hut?
-      </h1>
+      <BlurText
+        text="Bekommst du Studium und Job auch nicht unter einen Hut?"
+        delay={80}
+        animateBy="words"
+        direction="top"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold max-w-2xl leading-snug text-left"
+      />
 
       {/* Neuer Content aus Start-Komponente */}
       <div className="mt-12 flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl w-full">

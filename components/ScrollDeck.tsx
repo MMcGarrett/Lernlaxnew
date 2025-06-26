@@ -60,7 +60,7 @@ export default function ScrollFreeze({
   backgroundColor?: string;
 }) {
   return (
-    <div className="h-[150vh] relative">
+    <div className="h-[170vh] relative">
       <div className="sticky top-0 h-screen flex items-center justify-center">
         <ScrollSection backgroundColor={backgroundColor}>
           {children}

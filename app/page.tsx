@@ -41,7 +41,7 @@ export default function HomePage() {
 
 
   return (
-    <main className="relative min-h-screen text-white">
+    <main className="relative min-h-screen text-white hide-scrollbar">
       <ScrollEffect>
         <HeaderLogo />
         {showNavbar && <Navbar />}
