@@ -87,7 +87,7 @@ export default function SectionModule({
 
   /* ───────────────────────── Render ──────────────────────────────── */
   return (
-    <section className="bg-[#324F4A] py-16 px-6 text-white">
+    <section className="py-16 px-6 text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
         <h2 className="text-2xl font-semibold">{title}</h2>
 

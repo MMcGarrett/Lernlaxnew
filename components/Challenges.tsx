@@ -2,7 +2,7 @@ export default function ChallengesSection() {
   return (
     <section
       id="challenges"
-      className="min-h-screen w-full bg-[#2F403D] text-white px-6 md:px-20 py-12 flex flex-col"
+      className="min-h-screen w-full text-white px-6 md:px-20 py-12 flex flex-col"
     >
       {/* Titel oben */}
       <h2 className="text-3xl font-bold mb-16">

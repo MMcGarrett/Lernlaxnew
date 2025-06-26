@@ -6,7 +6,7 @@ export default function InspirationSection() {
       {/* Marker für Navbar */}
       <div id="section-5" className="h-48 -mt-48 invisible" />
 
-      <section className="min-h-screen w-full bg-[#226c52] text-white px-6 md:px-20 py-12 flex flex-col">
+      <section className="min-h-screen w-full text-white px-6 md:px-20 py-12 flex flex-col">
         {/* Titel oben links */}
         <h2 className="text-2xl md:text-3xl font-semibold mb-16">
           Inspiration – Weitere Möglichkeiten auf der Seite

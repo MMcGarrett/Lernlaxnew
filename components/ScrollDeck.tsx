@@ -1,12 +1,31 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useBackgroundColor } from "@/components/MotionBgProvider";
 
-export default function ScrollSection({ children }: { children: React.ReactNode }) {
+
+function ScrollSection({   
+    children,
+    backgroundColor,
+  } : {
+    children: React.ReactNode;
+    backgroundColor?: string;
+  }) 
+  {
   const ref = useRef(null);
+  const setBg = useBackgroundColor();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start center", "end center"]
   });
+
+  const inView = useInView(ref, { amount: 0.5 }); // 50% im Viewport
+
+  useEffect(() => {
+    if (inView && backgroundColor) {
+      setBg(backgroundColor);
+    }
+  }, [inView, backgroundColor, setBg]);
+
 
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   const scaleX = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 0.6]);
@@ -30,5 +49,23 @@ export default function ScrollSection({ children }: { children: React.ReactNode 
         {children}
       </motion.div>
     </section>
+  );
+}
+
+export default function ScrollFreeze({ 
+  children,
+  backgroundColor,
+}: {
+  children: React.ReactNode;
+  backgroundColor?: string;
+}) {
+  return (
+    <div className="h-[150vh] relative">
+      <div className="sticky top-0 h-screen flex items-center justify-center">
+        <ScrollSection backgroundColor={backgroundColor}>
+          {children}
+        </ScrollSection>
+      </div>
+    </div>
   );
 }

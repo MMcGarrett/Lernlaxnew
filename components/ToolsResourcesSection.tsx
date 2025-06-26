@@ -6,7 +6,7 @@ export default function ToolsResourcesSection() {
       {/* Navbar Marker für „Tools & Ressourcen“ */}
       <div id="section-4" className="h-48 -mt-48 invisible" />
 
-      <section className="min-h-screen w-full bg-[#123f3b] text-white px-6 md:px-20 py-12 flex flex-col">
+      <section className="min-h-screen w-full text-white px-6 md:px-20 py-12 flex flex-col">
         {/* Titel oben links */}
         <h2 className="text-3xl font-bold mb-16">
           Tools & Ressourcen – Weitere Links und Quellen

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import CharacterSelection from "@/components/CharacterSelection";
 import SectionModule from "@/components/SectionModule";
-import ScrollSection from "./ScrollDeck";
+import ScrollFreeze from "./ScrollDeck";
 import InteractiveFridge from '@/components/InteractiveFridge';
 
 interface WaySectionProps {
@@ -15,13 +15,14 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
   return (
     <section>
       <div id="deinWeg" className="h-48 -mt-48 invisible" />
-      <ScrollSection>
+      
+      <ScrollFreeze backgroundColor="#324F4A">
         <CharacterSelection onCharacterSelect={onCharacterSelect} />
-      </ScrollSection>
+      </ScrollFreeze >
       
       {selectedCharacter && (
         <>
-        <ScrollSection>
+        <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Schlaf"
             imageSrc="/images/placeholders/schlaf.png"
@@ -35,8 +36,9 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter}.png`}
           />
-        </ScrollSection>
+        </ScrollFreeze>
 
+        <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Ernährung"
             text="Eine ausgewogene Ernährung ist entscheidend für deine Konzentration…"
@@ -49,8 +51,10 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter}.png`}
             media={<InteractiveFridge />} 
-          />
+            />
+        </ScrollFreeze>
 
+        <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Bewegung/Sport"
             imageSrc="/images/placeholders/yoga.png"
@@ -63,8 +67,10 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             }}
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter}.png`}
-          />
+            />
+          </ScrollFreeze>
 
+          <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Zeitmanagement"
             imageSrc="/images/placeholders/zeitmanagement.png"
@@ -77,8 +83,10 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             }}
             order="question-first"
             characterImg={`/images/characters/${selectedCharacter}.png`}
-          />
-
+            />
+          </ScrollFreeze>
+          
+          <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Freunde & Familie"
             imageSrc="/images/placeholders/family.png"
@@ -91,7 +99,8 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter}.png`}
-          />
+            />
+          </ScrollFreeze>
         </>
       )}
     </section>
