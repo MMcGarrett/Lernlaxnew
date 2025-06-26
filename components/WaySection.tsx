@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CharacterSelection from "@/components/CharacterSelection";
 import SectionModule from "@/components/SectionModule";
+import ScrollSection from "./ScrollDeck";
 
 interface WaySectionProps {
   selectedCharacter: string | null;
@@ -13,10 +14,13 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
   return (
     <section>
       <div id="deinWeg" className="h-48 -mt-48 invisible" />
-      <CharacterSelection onCharacterSelect={onCharacterSelect} />
+      <ScrollSection>
+        <CharacterSelection onCharacterSelect={onCharacterSelect} />
+      </ScrollSection>
       
       {selectedCharacter && (
         <>
+        <ScrollSection>
           <SectionModule
             title="Dein Weg – Schlaf"
             imageSrc="/images/placeholders/schlaf.png"
@@ -30,6 +34,7 @@ export default function WaySection({ selectedCharacter, onCharacterSelect }: Way
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter}.png`}
           />
+        </ScrollSection>
 
           <SectionModule
             title="Dein Weg – Ernährung"

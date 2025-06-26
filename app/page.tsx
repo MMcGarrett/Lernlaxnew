@@ -13,6 +13,7 @@ import InspirationSection from "@/components/InspirationSection";
 import WaySection from "@/components/WaySection";
 
 import Footer from "@/components/Footer";
+import ScrollSection from "@/components/ScrollDeck";
 
 export default function HomePage() {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -44,14 +45,18 @@ export default function HomePage() {
       <ScrollEffect>
         <HeaderLogo />
         {showNavbar && <Navbar />}
-        <Hero />
-        <ChallengesSection />
-        <WaySection
-          selectedCharacter={selectedCharacter}
-          onCharacterSelect={(name) => setSelectedCharacter(name)}
-        />
-        <ToolsResourcesSection />
-        <InspirationSection />
+        <ScrollSection>
+          <Hero />
+        </ScrollSection>
+        <ScrollSection>
+          <ChallengesSection />
+        </ScrollSection>
+          <WaySection
+            selectedCharacter={selectedCharacter}
+            onCharacterSelect={(name) => setSelectedCharacter(name)}
+          />
+          <ToolsResourcesSection />
+          <InspirationSection />
         <Footer />
       </ScrollEffect>
     </main>
