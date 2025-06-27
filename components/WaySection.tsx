@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from "react";
-import CharacterSelection from "@/components/CharacterSelection";
-import SectionModule from "@/components/SectionModule";
-import ScrollFreeze from "./ScrollDeck";
+import { useState } from 'react';
+import CharacterSelection from '@/components/CharacterSelection';
+import SectionModule from '@/components/SectionModule';
+import ScrollFreeze from './ScrollDeck';
+import InteractiveGym from '@/components/InteractiveGym';
 import InteractiveFridge from '@/components/InteractiveFridge';
 
 type SelectedCharacter = {
@@ -17,8 +18,10 @@ export default function WaySection() {
   
   return (
     <section>
+      {/* ────────── Sprungmarke ────────── */}
       <div id="deinWeg" className="h-48 -mt-48 invisible" />
-      
+
+      {/* ────────── Charakterwahl ────────── */}
       <ScrollFreeze backgroundColor="#324F4A">
         <CharacterSelection onCharacterSelect={setSelectedCharacter} />
       </ScrollFreeze >
@@ -138,6 +141,7 @@ export default function WaySection() {
             />
           </ScrollFreeze>
 
+          {/* Ernährung */}
           <ScrollFreeze backgroundColor="#324F4A">
           <SectionModule
             title="Dein Weg – Zeitmanagement"
@@ -153,20 +157,22 @@ export default function WaySection() {
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             />
           </ScrollFreeze>
-          
+
+          {/* Bewegung / Sport – NEU: interaktives Modul */}
           <ScrollFreeze backgroundColor="#324F4A">
-          <SectionModule
-            title="Dein Weg – Freunde & Familie"
-            imageSrc="/images/placeholders/family.png"
-            text="Ein stabiles soziales Umfeld mit Freunden und Familie ist entscheidend für dein Wohlbefinden und deine psychische Gesundheit. Der Austausch mit vertrauten Personen bietet emotionalen Rückhalt, hilft beim Stressabbau und fördert die Motivation im Studium. Regelmäßige Treffen oder Gespräche mit deinen Liebsten können dir helfen, den Kopf freizubekommen und neue Energie zu tanken. Eine ausgewogene Balance zwischen Studium und sozialen Kontakten trägt dazu bei, dass du dich gelassener fühlst und den Studienalltag entspannter angehen kannst."
-            sourceUrl="https://www.phwt.de/study-life-balance/15555/"
-            question={{
-              id: "family",
-              questionText: "Wie viel Zeit nimmst du dir für Freunde und Familie?",
-              options: ["Weniger als 6h die Woche", "Zwischen 6 - 12h die Woche", "Über 12h Stunden die Woche"],
-            }}
-            order="text-first"
-            characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            <SectionModule
+              title="Dein Weg – Freunde & Familie"
+              imageSrc="/images/placeholders/family.png"
+              text="Ein stabiles soziales Umfeld mit Freunden und Familie ist entscheidend für dein Wohlbefinden und deine psychische Gesundheit. Der Austausch mit vertrauten Personen bietet emotionalen Rückhalt, hilft beim Stressabbau und fördert die Motivation im Studium. Regelmäßige Treffen oder Gespräche mit deinen Liebsten können dir helfen, den Kopf freizubekommen und neue Energie zu tanken. Eine ausgewogene Balance zwischen Studium und sozialen Kontakten trägt dazu bei, dass du dich gelassener fühlst und den Studienalltag entspannter angehen kannst."
+              sourceUrl="https://www.phwt.de/study-life-balance/15555/"
+              question={{
+                id: 'family',
+                questionText: 'Wie viel Zeit nimmst du dir für Freunde und Familie?',
+                options: ['Weniger als 6h die Woche', 'Zwischen 6 - 12h die Woche', 'Über 12h Stunden die Woche'],
+              }}
+              order="text-first"
+              characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              media={<InteractiveFridge />}
             />
           </ScrollFreeze>
 
