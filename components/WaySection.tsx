@@ -7,6 +7,7 @@ import ScrollFreeze from './ScrollDeck';
 import InteractiveGym from '@/components/InteractiveGym';
 import InteractiveFridge from '@/components/InteractiveFridge';
 import InteractiveSleep from '@/components/InteractiveSleep';
+import InteractiveTodo from '@/components/InteractiveTodo';
 
 type SelectedCharacter = {
   id: string;
@@ -157,6 +158,7 @@ export default function WaySection() {
             }}
             order="question-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            media={<InteractiveTodo />}
             />
           </ScrollFreeze>
           
