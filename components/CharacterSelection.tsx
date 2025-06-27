@@ -4,7 +4,11 @@ import BlurText from '@/assets/BlurTest';
 import { useEffect, useState } from 'react';
 
 type CharacterSelectionProps = {
-  onCharacterSelect: (characterName: string) => void;
+  onCharacterSelect: (character: {
+    id: string;
+    gender: string;
+    job: string;
+  }) => void;
 };
 
 
@@ -14,6 +18,7 @@ const characters = [
     name: 'Tom der Student',
     img: '/images/characters/tom.png',
     gender: 'maennlich',
+    job: 'werkstudent',
     description:
       'Tom studiert im Vollzeitstudium an einer Universität. Neben den Vorlesungen arbeitet er als Werkstudent, um sich sein Studium zu finanzieren.',
   },
@@ -22,6 +27,7 @@ const characters = [
     name: 'Luca der Azubi',
     img: '/images/characters/luca.png',
     gender: 'maennlich',
+    job: 'azubi',
     description:
       'Luca ist in einer Ausbildung und steht täglich im Betrieb, während er regelmäßig die Berufsschule besucht.',
   },
@@ -30,6 +36,7 @@ const characters = [
     name: 'Max der Duale Student',
     img: '/images/characters/max.png',
     gender: 'maennlich',
+    job: 'dual',
     description:
       'Max macht ein duales Studium und wechselt zwischen Vorlesungen und intensiven Arbeitsphasen im Unternehmen.',
   },
@@ -38,6 +45,7 @@ const characters = [
     name: 'Tanja die Studentin',
     img: '/images/characters/tanja.png',
     gender: 'weiblich',
+    job: 'werkstudent',
     description:
       'Tanja studiert im Vollzeitstudium an einer Universität. Neben den Vorlesungen arbeitet sie als Werkstudentin, um sich ihr Studium zu finanzieren.',
   },
@@ -46,6 +54,7 @@ const characters = [
     name: 'Maren die Duale Studentin',
     img: '/images/characters/maren.png',
     gender: 'weiblich',
+    job: 'dual',
     description:
       'Maren macht ein duales Studium und wechselt zwischen Vorlesungen und intensiven Arbeitsphasen im Unternehmen.',
   },
@@ -54,8 +63,36 @@ const characters = [
     name: 'Lisa die Auszubildende',
     img: '/images/characters/lisa.png',
     gender: 'weiblich',
+    job: 'azubi',
     description:
       'Lisa ist in einer Ausbildung und steht täglich im Betrieb, während sie regelmäßig die Berufsschule besucht.',
+  },
+  {
+    id:"Elian",
+    name: 'Elian die Auszubildende',
+    img: '/images/characters/Elian.png',
+    gender: 'divers',
+    job: 'azubi',
+    description:
+      'Elian ist in einer Ausbildung und steht täglich im Betrieb, während sie regelmäßig die Berufsschule besucht.',
+  },
+  {
+    id:"Noa",
+    name: 'Noa die Studentin',
+    img: '/images/characters/Noa.png',
+    gender: 'divers',
+    job: 'werkstudent',
+    description:
+      'Noa studiert im Vollzeitstudium an einer Universität. Neben den Vorlesungen arbeitet sie als Werkstudentin, um sich ihr Studium zu finanzieren.',
+  },
+  {
+    id:"Sami",
+    name: 'Sami die Duale Studentin',
+    img: '/images/characters/Sami.png',
+    gender: 'divers',
+    job: 'dual',
+    description:
+      'Sami macht ein duales Studium und wechselt zwischen Vorlesungen und intensiven Arbeitsphasen im Unternehmen.',
   },
 ];
 
@@ -99,14 +136,15 @@ export default function CharacterSelection({ onCharacterSelect }: CharacterSelec
 
   const handleSelect = (index: number) => {
     setSelectedIndex(index);
-    const selectedName = characters[index].id;
-    onCharacterSelect(selectedName);
+    const selectedChar = characters[index];
+    onCharacterSelect({
+      id: selectedChar.id,
+      gender: selectedChar.gender,
+      job: selectedChar.job,
+    });
   };
 
   const filteredCharacters = characters.filter((char) => {
-    if (selectedGender === 'divers') {
-      return ['Tanja die Studentin', 'Maren die Duale Studentin', 'Luca der Azubi'].includes(char.name);
-    }
     return char.gender === selectedGender;
   });
 

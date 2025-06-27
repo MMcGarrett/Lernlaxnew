@@ -210,7 +210,7 @@ function ImageBox({ src, large = false }: { src: string; large?: boolean }) {
   return (
     <div className="flex w-full max-w-sm flex-shrink-0 justify-center">
       <div
-        className={`w-full overflow-hidden rounded-xl shadow-lg ${
+        className={`w-full overflow-hidden ${
           large ? 'max-w-lg' : 'max-w-sm'
         }`}
       >
