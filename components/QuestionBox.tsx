@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 type QuestionBoxProps = {
   id: string;
@@ -10,8 +11,16 @@ type QuestionBoxProps = {
   characterImg?: string;
 };
 
+type Props = {
+  id: string;
+  questionText: string;
+  options: string[];
+  characterImg?: string;
+  direction?: 'left' | 'right' | 'top' | 'bottom';
+  trigger?: boolean;
+};
 
-export default function QuestionBox({
+function QuestionBox({
   id,
   questionText,
   options,
@@ -21,7 +30,6 @@ export default function QuestionBox({
 
   return (
     <div className="relative bg-[#1B1B1B] rounded-[2rem] p-6 pr-16 w-full max-w-sm shadow-lg">
-      {/* Character Bild oben rechts */}
       {characterImg && (
         <div className="absolute top-4 right-4 w-10 h-10 rounded-full overflow-hidden">
           <Image
@@ -52,5 +60,65 @@ export default function QuestionBox({
         ))}
       </ul>
     </div>
+  );
+}
+
+export default function AnimatedQuestionBox({
+  id,
+  questionText,
+  options,
+  characterImg,
+  direction = 'bottom',
+  trigger = false,
+}: Props) {
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
+    const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+
+    const off =
+      direction === 'left'
+        ? { x: -screenWidth, y: 0 }
+        : direction === 'right'
+        ? { x: screenWidth, y: 0 }
+        : direction === 'top'
+        ? { x: 0, y: -screenHeight }
+        : { x: 0, y: screenHeight };
+
+    setOffset(off);
+  }, [direction]);
+
+  const variants = {
+    hidden: {
+      opacity: 0,
+      x: offset.x,
+      y: offset.y,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 1.3,
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      initial="hidden"
+      animate={trigger ? 'visible' : 'hidden'}
+      variants={variants}
+      className="relative w-full max-w-sm"
+    >
+      <QuestionBox
+        id={id}
+        questionText={questionText}
+        options={options}
+        characterImg={characterImg}
+      />
+    </motion.div>
   );
 }

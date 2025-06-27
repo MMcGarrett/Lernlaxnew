@@ -1,5 +1,6 @@
 'use client';
 
+import BlurText from '@/assets/BlurTest';
 import { useEffect, useState } from 'react';
 
 type CharacterSelectionProps = {
@@ -110,12 +111,16 @@ export default function CharacterSelection({ onCharacterSelect }: CharacterSelec
   });
 
   return (
-    <section className="bg-[#324F4A] text-white py-16 px-6">
-      <div className="max-w-6xl mx-auto text-center">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 gap-4">
-          <h2 className="text-2xl md:text-3xl font-semibold text-center md:text-left">
-            Wer passt am besten zu dir?
-          </h2>
+  <section className="min-h-screen w-full text-white px-6 flex items-center justify-center">
+    <div className="w-full max-w-6xl mx-auto text-center">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 gap-4">
+          <BlurText
+            text="Wer passt am besten zu dir?"
+            delay={30}
+            animateBy="words"
+            direction="top"
+            className="text-2xl md:text-3xl font-semibold text-center md:text-left"
+          />
           <div className="flex justify-center md:justify-end">
             <div className="flex bg-white/10 rounded-full p-1 space-x-2">
               {[

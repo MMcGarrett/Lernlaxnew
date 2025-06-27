@@ -1,9 +1,10 @@
 import "./globals.css";
 import { DM_Sans } from "next/font/google";
+import { MotionBgProvider } from "@/components/MotionBgProvider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700"], // normal, medium, bold
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -19,8 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={dmSans.className}>{children}</body>
+      <body className={dmSans.className}>
+        <MotionBgProvider>
+          {children}
+        </MotionBgProvider>
+      </body>
     </html>
   );
 }
-
