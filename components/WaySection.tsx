@@ -6,6 +6,7 @@ import SectionModule from '@/components/SectionModule';
 import ScrollFreeze from './ScrollDeck';
 import InteractiveGym from '@/components/InteractiveGym';
 import InteractiveFridge from '@/components/InteractiveFridge';
+import InteractiveSleep from '@/components/InteractiveSleep';
 
 type SelectedCharacter = {
   id: string;
@@ -41,6 +42,7 @@ export default function WaySection() {
             }}
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            media={<InteractiveSleep />}
           />
         </ScrollFreeze>
 
