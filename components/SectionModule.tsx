@@ -6,7 +6,7 @@ import {
   cloneElement,
   useState,
 } from 'react';
-import QuestionBox from './QuestionBox';
+import AnimatedQuestionBox from './QuestionBox';
 import BlurText from '@/assets/BlurTest';
 import SplitText from '@/assets/SplitText';
 
@@ -60,30 +60,56 @@ export default function SectionModule({
     );
   }
 
+  const [revealQuestion, setRevealQuestion] = useState(false);
+
   /* ─────────────── Reihenfolge-Konfiguration ──────────────────────── */
   const renderOrder = {
     'image-first': [
       visual,
-      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} />,
-      <QuestionBox key="question" {...question} characterImg={characterImg} />,
+      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} onRevealQuestion={() => setRevealQuestion(true)}/>,
+      <AnimatedQuestionBox
+        key="question"
+        {...question}
+        characterImg={characterImg}
+        direction="right"
+        trigger={revealQuestion}
+      />
     ],
     'text-first': [
-      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} />,
+      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} onRevealQuestion={() => setRevealQuestion(true)}/>,
       visual,
-      <QuestionBox key="question" {...question} characterImg={characterImg} />,
+      <AnimatedQuestionBox
+        key="question"
+        {...question}
+        characterImg={characterImg}
+        direction="right"
+        trigger={revealQuestion}
+      />
     ],
     'question-first': [
-      <QuestionBox key="question" {...question} characterImg={characterImg} />,
+      <AnimatedQuestionBox
+        key="question"
+        {...question}
+        characterImg={characterImg}
+        direction="left"
+        trigger={revealQuestion}
+      />,
       visual,
-      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} />,
+      <TextBox key="text" text={text} sourceUrl={sourceUrl} tip={tip} onRevealQuestion={() => setRevealQuestion(true)}/>,
     ],
     'big-image': [
       <div key="visual" className="flex flex-col items-center">
         {visual}
       </div>,
       <div key="stack" className="flex flex-col gap-6 flex-1 max-w-lg">
-        <QuestionBox {...question} characterImg={characterImg} />
-        <TextBox text={text} sourceUrl={sourceUrl} tip={tip} />
+        <AnimatedQuestionBox
+          key="question"
+          {...question}
+          characterImg={characterImg}
+          direction="top"
+          trigger={revealQuestion}
+        />
+        <TextBox text={text} sourceUrl={sourceUrl} tip={tip} onRevealQuestion={() => setRevealQuestion(true)}/>
       </div>,
     ],
   } as const;
@@ -104,21 +130,36 @@ export default function SectionModule({
 
 /* ───────────────────────── Hilfs-Komponenten ─────────────────────── */
 
-function TextBox({
+import { useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
+
+export function TextBox({
   text,
   sourceUrl,
   tip,
+  onRevealQuestion,
 }: {
   text: string;
   sourceUrl?: string;
   tip: string;
+  onRevealQuestion: () => void;
 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  useEffect(() => {
+    if (isInView) {
+      console.log("Text ist sichtbar, starte Frageanimation");
+      onRevealQuestion();
+    }
+  }, [isInView, onRevealQuestion]);
+
   return (
-    <div className="w-full text-left">
+    <div className="w-full text-left" ref={ref}>
       <SplitText
         text={text}
         className="mb-4 text-base leading-relaxed"
-        delay={17}
+        delay={25}
         duration={0.6}
         ease="power3.out"
         splitType="words"
@@ -140,13 +181,13 @@ function TextBox({
         </a>
       )}
 
-      {/* Tooltip unter der Quelle */}
       <div className="mt-4 rounded bg-gray-800 px-2 py-1 text-[14px] text-white">
         {tip}
       </div>
     </div>
   );
 }
+
 
 function ImageBox({ src, large = false }: { src: string; large?: boolean }) {
   return (
