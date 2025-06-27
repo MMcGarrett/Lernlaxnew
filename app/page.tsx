@@ -13,6 +13,7 @@ import InspirationSection from "@/components/InspirationSection";
 import WaySection from "@/components/WaySection";
 
 import Footer from "@/components/Footer";
+import ScrollFreeze from "@/components/ScrollDeck";
 
 export default function HomePage() {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -40,19 +41,34 @@ export default function HomePage() {
 
 
   return (
-    <main className="relative min-h-screen bg-[#1c1f20] text-white">
+    <main className="relative min-h-screen text-white hide-scrollbar">
       <ScrollEffect>
         <HeaderLogo />
         {showNavbar && <Navbar />}
-        <Hero />
-        <ChallengesSection />
+
+        <ScrollFreeze backgroundColor="#1B201F">
+          <Hero />
+        </ScrollFreeze>
+
+        <ScrollFreeze backgroundColor="#2F403D">
+          <ChallengesSection />
+        </ScrollFreeze>
+
         <WaySection
           selectedCharacter={selectedCharacter}
           onCharacterSelect={(name) => setSelectedCharacter(name)}
         />
-        <ToolsResourcesSection />
-        <InspirationSection />
+
+        <ScrollFreeze backgroundColor="#275C53">
+          <ToolsResourcesSection />
+        </ScrollFreeze>
+
+        <ScrollFreeze backgroundColor="#287056">
+          <InspirationSection />
+        </ScrollFreeze>
+        
         <Footer />
+
       </ScrollEffect>
     </main>
   );
