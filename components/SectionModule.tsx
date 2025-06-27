@@ -118,8 +118,13 @@ export default function SectionModule({
   return (
     <section className="py-16 px-6 text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        <h2 className="text-2xl font-semibold">{title}</h2>
-
+        <BlurText
+              text={title}
+              delay={30}
+              animateBy="words"
+              direction="top"
+              className="text-2xl font-semibold"
+        />
         <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:text-left">
           {(renderOrder[order] ?? []).map((el) => el)}
         </div>
@@ -177,7 +182,19 @@ export function TextBox({
           rel="noopener noreferrer"
           className="text-sm text-blue-300 underline"
         >
-          Quelle ansehen
+          <SplitText
+            text="Quelle ansehen"
+            className=""
+            delay={50}
+            duration={0.6}
+            ease="power3.out"
+            splitType="words"
+            from={{ opacity: 0, y: -40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="left"
+          />
         </a>
       )}
 

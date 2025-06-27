@@ -1,3 +1,4 @@
+import BlurText from "@/assets/BlurTest";
 import React from "react";
 
 export default function InspirationSection() {
@@ -8,9 +9,13 @@ export default function InspirationSection() {
 
       <section className="min-h-screen w-full text-white px-6 md:px-20 py-12 flex flex-col">
         {/* Titel oben links */}
-        <h2 className="text-2xl md:text-3xl font-semibold mb-16">
-          Inspiration – Weitere Möglichkeiten auf der Seite
-        </h2>
+        <BlurText
+          text="Inspiration – Weitere Möglichkeiten auf der Seite"
+          delay={30}
+          animateBy="words"
+          direction="top"
+          className="text-2xl md:text-3xl font-semibold mb-16"
+        />
 
         {/* Zentrierte Kacheln im Screen */}
         <div className="flex flex-1 items-center justify-center">

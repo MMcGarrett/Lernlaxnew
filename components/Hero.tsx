@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import BlurText from '../assets/BlurTest';
+import SplitText from '../assets/SplitText';
 
 export default function Hero() {
   return (
@@ -18,11 +19,19 @@ export default function Hero() {
       <div className="mt-12 flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl w-full">
         {/* Textfeld */}
         <div className="flex-1 text-left pl-[100px]">
-          <p className="text-lg leading-relaxed max-w-md">
-            Manchmal merken wir erst spät, wie viel wir tragen. Hier erfährst du,
-            <br />
-            warum es so wichtig ist, jetzt bewusst innezuhalten.
-          </p>
+            <SplitText
+              text="Manchmal merken wir erst spät, wie viel wir tragen. Hier erfährst du, warum es so wichtig ist, jetzt bewusst innezuhalten."
+              className="text-lg leading-relaxed max-w-md"
+              delay={50}
+              duration={0.6}
+              ease="power3.out"
+              splitType="words"
+              from={{ opacity: 0, y: -40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="left"
+            />
         </div>
 
         {/* Bildfeld */}

@@ -35,7 +35,7 @@ function ScrollSection({
   return (
     <section
       ref={ref}
-      className="h-screen snap-start flex items-center justify-center"
+      className="h-screen snap-start flex items-center justify-center overflow-hidden"
     >
       <motion.div
         style={{
