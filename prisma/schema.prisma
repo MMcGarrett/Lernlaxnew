@@ -17,6 +17,7 @@ model User {
   created_at    DateTime    @default(now()) @db.Timestamptz(6)
   avatar_url    String      @default("/Avatare_M/Luca.png")
   mood_entries  MoodEntry[]
+  quizSessions QuizSession[]
 
   @@map("users")
 }
@@ -63,6 +64,7 @@ model QuizQuestion {
   id       Int       @id
   text     String
   options  String[]  // z.B. ["3h", "6h", "8h"]
+  answers  QuizAnswer[]
 
   @@map("quiz_questions")
 }
