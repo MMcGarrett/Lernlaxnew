@@ -9,6 +9,7 @@ type QuestionBoxProps = {
   questionText: string;
   options: string[];
   characterImg?: string;
+  onAnswer?: (answer: { questionId: string; selectedIndex: number }) => void;
 };
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
   characterImg?: string;
   direction?: 'left' | 'right' | 'top' | 'bottom';
   trigger?: boolean;
+  onAnswer?: (answer: { questionId: string; selectedIndex: number }) => void;
 };
 
 function QuestionBox({
@@ -25,8 +27,16 @@ function QuestionBox({
   questionText,
   options,
   characterImg,
+  onAnswer,
 }: QuestionBoxProps) {
   const [selected, setSelected] = useState<number | null>(null);
+
+  const handleClick = (index: number) => {
+    setSelected(index);
+    if (onAnswer) {
+      onAnswer({ questionId: id, selectedIndex: index });
+    }
+  };
 
   return (
     <div className="relative bg-[#1B1B1B] rounded-[2rem] p-6 pr-16 w-full max-w-sm shadow-lg">
@@ -47,7 +57,7 @@ function QuestionBox({
         {options.map((option, index) => (
           <li key={index}>
             <button
-              onClick={() => setSelected(index)}
+              onClick={() => handleClick(index)}
               className={`w-full text-left px-4 py-2 rounded-full border transition-colors ${
                 selected === index
                   ? "bg-white text-[#2F403D] font-semibold"
@@ -70,6 +80,7 @@ export default function AnimatedQuestionBox({
   characterImg,
   direction = 'bottom',
   trigger = false,
+  onAnswer, // ✅ wird hier übergeben
 }: Props) {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
@@ -118,6 +129,7 @@ export default function AnimatedQuestionBox({
         questionText={questionText}
         options={options}
         characterImg={characterImg}
+        onAnswer={onAnswer}
       />
     </motion.div>
   );

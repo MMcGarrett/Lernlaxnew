@@ -17,6 +17,7 @@ model User {
   created_at    DateTime    @default(now()) @db.Timestamptz(6)
   avatar_url    String      @default("/Avatare_M/Luca.png")
   mood_entries  MoodEntry[]
+  quizSessions QuizSession[]
 
   @@map("users")
 }
@@ -46,4 +47,47 @@ model MoodEntry {
   users   User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 
   @@map("mood_entries")
+}
+
+model QuizSession {
+  id         Int          @id @default(autoincrement())
+  user_id    Int?         
+  user       User?        @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  created_at DateTime     @default(now()) @db.Timestamptz(6)
+  answers    QuizAnswer[]
+  result     QuizResult?
+
+  @@map("quiz_sessions")
+}
+
+model QuizQuestion {
+  id       String      @id
+  text     String
+  options  String[]
+  answers  QuizAnswer[]
+
+  @@map("quiz_questions")
+}
+
+model QuizAnswer {
+  id           Int          @id @default(autoincrement())
+  session_id   Int
+  question_id  String
+  selected     Int          // <- war vorher String, jetzt korrekt Int
+
+  session      QuizSession  @relation(fields: [session_id], references: [id])
+  question     QuizQuestion @relation(fields: [question_id], references: [id])
+
+  @@map("quiz_answers")
+}
+
+model QuizResult {
+  id          Int           @id @default(autoincrement())
+  session_id  Int           @unique
+  resultText  String
+  created_at  DateTime      @default(now()) @db.Timestamptz(6)
+
+  session     QuizSession   @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("quiz_results")
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import CharacterSelection from '@/components/CharacterSelection';
 import SectionModule from '@/components/SectionModule';
 import ScrollFreeze from './ScrollDeck';
@@ -15,8 +16,36 @@ type SelectedCharacter = {
   job: string;
 };
 
+type EvaluationItem = {
+  questionId: string;
+  questionText: string;
+  selected: number;
+};
+
 export default function WaySection() {
   const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
+  const [answers, setAnswers] = useState<{ [id: string]: number }>({});
+
+  const handleAnswer = ({ questionId, selectedIndex }: { questionId: string; selectedIndex: number }) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: selectedIndex }));
+    console.log("Aktuelle Antworten:", answers);
+  };
+
+  const [result, setResult] = useState<EvaluationItem[] | null>(null);
+
+  useEffect(() => {
+    const sessionId = Cookies.get('quizSessionId');
+    if (!sessionId) return;
+
+    fetch(`/api/quiz/results?sessionId=${sessionId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) setResult(data.result);
+      })
+      .catch(console.error);
+  }, []);
+
+
   
   return (
     <section>
@@ -44,6 +73,8 @@ export default function WaySection() {
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveSleep />}
+            onAnswer={handleAnswer}
+
           />
         </ScrollFreeze>
 
@@ -65,6 +96,8 @@ export default function WaySection() {
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
           )}
@@ -86,6 +119,7 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
             </ScrollFreeze>
           )}
@@ -108,6 +142,7 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
             </ScrollFreeze>
           )}
@@ -125,6 +160,8 @@ export default function WaySection() {
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveFridge />} 
+            onAnswer={handleAnswer}
+
             />
         </ScrollFreeze>
 
@@ -142,6 +179,8 @@ export default function WaySection() {
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveGym />}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
 
@@ -159,6 +198,8 @@ export default function WaySection() {
             order="question-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveTodo />}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
           
@@ -175,6 +216,8 @@ export default function WaySection() {
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
 
@@ -196,7 +239,33 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/quiz/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      alert('Antworten erfolgreich gespeichert!');
+                    } else {
+                      alert('Fehler beim Speichern 😢');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
 
@@ -218,7 +287,33 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/quiz/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      alert('Antworten erfolgreich gespeichert!');
+                    } else {
+                      alert('Fehler beim Speichern');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
 
@@ -240,10 +335,68 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/quiz/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      const data = await res.json();
+                      Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
+                      alert('Antworten erfolgreich gespeichert!');
+
+                      const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
+                      const resultData = await resultRes.json();
+                      if (resultData.result) setResult(resultData.result);
+                    } else {
+                      alert('Fehler beim Speichern');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
         </>
+      )}
+      {result && (
+        <div className="bg-[#324F4A] py-20 px-6 text-white text-center">
+          <h2 className="text-3xl font-bold mb-10">Dein Ergebnis</h2>
+          <div className="space-y-6 max-w-2xl mx-auto">
+            {result.map(({ questionText, selected }, i) => (
+              <div key={i} className="bg-white/10 p-6 rounded-xl shadow-lg">
+                <p className="text-lg mb-2">{questionText}</p>
+                <div className="w-full bg-white/20 h-4 rounded-full overflow-hidden">
+                  <div
+                    className={`h-4 ${
+                      selected === 1
+                        ? 'bg-red-500 w-1/3'
+                        : selected === 2
+                        ? 'bg-yellow-500 w-2/3'
+                        : 'bg-green-500 w-full'
+                    }`}
+                  ></div>
+                </div>
+                <p className="mt-2 text-sm">
+                  Deine Einschätzung: {selected === 1 ? 'Unteres Drittel' : selected === 2 ? 'Mittelfeld' : 'Oberes Drittel'}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </section>
   );

@@ -54,10 +54,7 @@ export default function HomePage() {
           <ChallengesSection />
         </ScrollFreeze>
 
-        <WaySection
-          selectedCharacter={selectedCharacter}
-          onCharacterSelect={(name) => setSelectedCharacter(name)}
-        />
+        <WaySection/>
 
         <ScrollFreeze backgroundColor="#275C53">
           <ToolsResourcesSection />
