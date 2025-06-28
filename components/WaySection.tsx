@@ -33,6 +33,9 @@ export default function WaySection() {
   };
 
   const [result, setResult] = useState<EvaluationItem[] | null>(null);
+  const [resultText, setResultText] = useState<string | null>(null);
+  
+
 
   useEffect(() => {
     const sessionId = Cookies.get('quizSessionId');
@@ -42,9 +45,11 @@ export default function WaySection() {
       .then((res) => res.json())
       .then((data) => {
         if (data.result) setResult(data.result);
+        if (data.resultText) setResultText(data.resultText);
       })
       .catch(console.error);
   }, []);
+
 
 
   
@@ -265,6 +270,10 @@ export default function WaySection() {
                       Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
                       alert('Antworten erfolgreich gespeichert!');
 
+                      if (data.resultText) {
+                        setResultText(data.resultText);
+                      }
+
                       const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
                       const resultData = await resultRes.json();
                       if (resultData.result) setResult(resultData.result);
@@ -318,6 +327,10 @@ export default function WaySection() {
                       const data = await res.json();
                       Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
                       alert('Antworten erfolgreich gespeichert!');
+
+                      if (data.resultText) {
+                        setResultText(data.resultText);
+                      }
 
                       const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
                       const resultData = await resultRes.json();
@@ -373,6 +386,10 @@ export default function WaySection() {
                       Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
                       alert('Antworten erfolgreich gespeichert!');
 
+                      if (data.resultText) {
+                        setResultText(data.resultText);
+                      }
+
                       const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
                       const resultData = await resultRes.json();
                       if (resultData.result) setResult(resultData.result);
@@ -426,13 +443,7 @@ export default function WaySection() {
               {/* Nachricht an dich */}
               <div className="text-white space-y-6 text-left text-sm leading-relaxed max-w-3xl mx-auto">
                 <h3 className="text-xl font-semibold">Unsere Nachricht an Dich</h3>
-                <p>
-                  Mit 6 bis 8 Stunden Schlaf pro Nacht liegst du im empfohlenen Bereich für Erwachsene. Diese Schlafdauer unterstützt deine kognitive Leistungsfähigkeit, fördert die Kreativität und hilft deinem Gehirn, neue Informationen effektiv zu verarbeiten. Ein regelmäßiger Schlafrhythmus ist dabei besonders wichtig.
-                  Wenn du täglich sieben Hände voll Gemüse zu dir nimmst, versorgst du deinen Körper optimal mit essenziellen Nährstoffen. Diese hohe Gemüsezufuhr kann deine Konzentration, dein Gedächtnis und dein allgemeines Wohlbefinden erheblich verbessern.
-                  Wenn du keinen Sport treibst, verpasst du die zahlreichen gesundheitlichen Vorteile regelmäßiger körperlicher Aktivität. Bewegungsmangel erhöht das Risiko für verschiedene Erkrankungen und kann sich negativ auf dein Wohlbefinden auswirken.
-                  Wenn du dich schlecht organisiert fühlst, kann das zu Stress, verpassten Deadlines und einem Ungleichgewicht zwischen Studium, Arbeit und Freizeit führen. Digitale Tools wie Kalender-Apps und To-do-Listen unterstützen dich dabei, deine Aufgaben effizient zu verwalten.
-                  Wenn du wenig Kontakt zu Freunden oder Familie hast, kann das zu einem Gefühl der Isolation führen und deine Study Life Balance beeinträchtigen. Es ist wichtig, bewusst Zeit für soziale Kontakte einzuplanen.
-                </p>
+                <p className="whitespace-pre-line max-w-3xl mx-auto">{resultText}</p>
               </div>
             </div>
           </div>

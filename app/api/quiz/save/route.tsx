@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getResultText } from '@/lib/getResultText';
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,26 +30,40 @@ export async function POST(req: NextRequest) {
       };
     });
 
+    // Ergebnistext erzeugen
+    const resultText = answers
+      .map((a: { questionId: string; selectedIndex: number }) =>
+        getResultText(a.questionId, a.selectedIndex)
+      )
+      .filter(Boolean)
+      .join('\n\n');
+
+    // Session & Result speichern
     const session = await prisma.quizSession.create({
       data: {
         user_id: userId ?? null,
         answers: {
           create: formattedAnswers
+        },
+        result: {
+          create: {
+            resultText
+          }
         }
       },
-      include: { answers: true }
+      include: { answers: true, result: true }
     });
 
     // Cookie mit Session-ID setzen
     const response = NextResponse.json({ success: true, session });
     response.cookies.set('quizSessionId', String(session.id), {
       path: '/',
-      httpOnly: true, // Server-only Zugriff
+      httpOnly: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 Tage gültig
+      maxAge: 60 * 60 * 24 * 7 // 7 Tage
     });
 
-    return response;
+    return NextResponse.json({ success: true, session, resultText });
 
   } catch (error) {
     console.error('[QUIZ API] Fehler beim Speichern der Antworten:', error);
