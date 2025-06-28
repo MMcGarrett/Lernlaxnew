@@ -389,31 +389,56 @@ export default function WaySection() {
         </>
       )}
       {result && (
-        <div className="bg-[#324F4A] py-20 px-6 text-white text-center">
-          <h2 className="text-3xl font-bold mb-10">Dein Ergebnis</h2>
-          <div className="space-y-6 max-w-2xl mx-auto">
-            {result.map(({ questionText, selected }, i) => (
-              <div key={i} className="bg-white/10 p-6 rounded-xl shadow-lg">
-                <p className="text-lg mb-2">{questionText}</p>
-                <div className="w-full bg-white/20 h-4 rounded-full overflow-hidden">
-                  <div
-                    className={`h-4 ${
-                      selected === 0
-                        ? 'bg-red-500 w-1/3'
-                        : selected === 1
-                        ? 'bg-yellow-500 w-2/3'
-                        : 'bg-green-500 w-full'
-                    }`}
-                  ></div>
-                </div>
-                <p className="mt-2 text-sm">
-                  Deine Einschätzung: {selected === 0 ? 'Unteres Drittel' : selected === 1 ? 'Mittelfeld' : 'Oberes Drittel'}
+        <ScrollFreeze>
+          <div className="bg-[#324F4A] py-20 px-6 text-white">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-12 text-center">Dein Weg – Auswertung</h2>
+
+              {/* Balken-Auswertung */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+                {result.map(({ questionText, selected }, i) => (
+                  <div key={i} className="flex flex-col">
+                    <div className="flex justify-between text-sm mb-1">
+                      <span>{questionText}</span>
+                      <span>
+                        {selected === 0
+                          ? 'Schwach'
+                          : selected === 1
+                          ? 'Okay'
+                          : 'Gut'}
+                      </span>
+                    </div>
+                    <div className="w-full bg-white/30 h-4 rounded-full overflow-hidden">
+                      <div
+                        className={`h-4 ${
+                          selected === 0
+                            ? 'bg-red-500 w-1/3'
+                            : selected === 1
+                            ? 'bg-yellow-500 w-2/3'
+                            : 'bg-green-500 w-full'
+                        }`}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Nachricht an dich */}
+              <div className="text-white space-y-6 text-left text-sm leading-relaxed max-w-3xl mx-auto">
+                <h3 className="text-xl font-semibold">Unsere Nachricht an Dich</h3>
+                <p>
+                  Mit 6 bis 8 Stunden Schlaf pro Nacht liegst du im empfohlenen Bereich für Erwachsene. Diese Schlafdauer unterstützt deine kognitive Leistungsfähigkeit, fördert die Kreativität und hilft deinem Gehirn, neue Informationen effektiv zu verarbeiten. Ein regelmäßiger Schlafrhythmus ist dabei besonders wichtig.
+                  Wenn du täglich sieben Hände voll Gemüse zu dir nimmst, versorgst du deinen Körper optimal mit essenziellen Nährstoffen. Diese hohe Gemüsezufuhr kann deine Konzentration, dein Gedächtnis und dein allgemeines Wohlbefinden erheblich verbessern.
+                  Wenn du keinen Sport treibst, verpasst du die zahlreichen gesundheitlichen Vorteile regelmäßiger körperlicher Aktivität. Bewegungsmangel erhöht das Risiko für verschiedene Erkrankungen und kann sich negativ auf dein Wohlbefinden auswirken.
+                  Wenn du dich schlecht organisiert fühlst, kann das zu Stress, verpassten Deadlines und einem Ungleichgewicht zwischen Studium, Arbeit und Freizeit führen. Digitale Tools wie Kalender-Apps und To-do-Listen unterstützen dich dabei, deine Aufgaben effizient zu verwalten.
+                  Wenn du wenig Kontakt zu Freunden oder Familie hast, kann das zu einem Gefühl der Isolation führen und deine Study Life Balance beeinträchtigen. Es ist wichtig, bewusst Zeit für soziale Kontakte einzuplanen.
                 </p>
               </div>
-            ))}
+            </div>
           </div>
-        </div>
+        </ScrollFreeze>
       )}
+
     </section>
   );
 }
