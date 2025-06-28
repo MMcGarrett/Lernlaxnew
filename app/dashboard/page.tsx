@@ -72,7 +72,7 @@ export default async function DashboardPage() {
         <MoodTracker firstName={dbUser.first_name} />
 
         <section className="mt-16">
-          <h3 className="text-lg font-bold mb-4">Dein persönlicher Tipp!</h3>
+          <h2 className="text-2xl font-bold mb-4">Dein persönlicher Tipp!</h2>
           <div className="text-sm space-y-4 text-gray-100 whitespace-pre-line">
             {lastResult?.result?.resultText ? (
               lastResult.result.resultText
