@@ -35,6 +35,7 @@ export type SectionModuleProps = {
   characterImg?: string;
   imageSrc?: string;
   media?: ReactNode;
+  hideTipBox?: boolean;           // 🔄 NEU
   onAnswer?: (answer: { questionId: string; selectedIndex: number }) => void;
 };
 
@@ -49,9 +50,9 @@ export default function SectionModule({
   characterImg,
   imageSrc,
   media,
+  hideTipBox = false,             // 🔄 default = anzeigen
   onAnswer,
 }: SectionModuleProps) {
-  /* Default-Tipp – verallgemeinert */
   const [tip, setTip] = useState('Fahre über einen Punkt für einen Tipp.');
   const [revealQuestion, setRevealQuestion] = useState(false);
 
@@ -61,10 +62,10 @@ export default function SectionModule({
   /* Visual (Bild oder interaktives Media-Element) bestimmen */
   let visual: ReactNode;
   if (media && isValidElement(media)) {
-    /* Interaktives Element bekommt den Callback mit */
+    /* Interaktivem Element den Callback mitgeben */
     visual = cloneElement(media as ReactElement<any>, { onTipChange: setTip });
   } else {
-    /* Fallback = einfaches Bild */
+    /* Fallback = statisches Bild */
     visual = (
       <ImageBox
         src={imageSrc ?? '/images/placeholder.png'}
@@ -73,18 +74,23 @@ export default function SectionModule({
     );
   }
 
-  /* Reihenfolge-Abbildung, je nach Prop 'order' */
+  /* Helper: TextBox mit korrekten Props erstellen */
+  const textBox = (
+    <TextBox
+      key="text"
+      text={text}
+      sourceUrl={sourceUrl}
+      tip={tip}
+      showTipBox={hasMedia && !hideTipBox}   // 🔄 nur anzeigen, wenn erlaubt
+      onRevealQuestion={() => setRevealQuestion(true)}
+    />
+  );
+
+  /* Reihenfolge-Mapping */
   const renderOrder = {
     'image-first': [
       visual,
-      <TextBox
-        key="text"
-        text={text}
-        sourceUrl={sourceUrl}
-        tip={tip}
-        showTipBox={hasMedia}
-        onRevealQuestion={() => setRevealQuestion(true)}
-      />,
+      textBox,
       <AnimatedQuestionBox
         key="question"
         {...question}
@@ -95,14 +101,7 @@ export default function SectionModule({
       />,
     ],
     'text-first': [
-      <TextBox
-        key="text"
-        text={text}
-        sourceUrl={sourceUrl}
-        tip={tip}
-        showTipBox={hasMedia}
-        onRevealQuestion={() => setRevealQuestion(true)}
-      />,
+      textBox,
       visual,
       <AnimatedQuestionBox
         key="question"
@@ -123,14 +122,7 @@ export default function SectionModule({
         onAnswer={onAnswer}
       />,
       visual,
-      <TextBox
-        key="text"
-        text={text}
-        sourceUrl={sourceUrl}
-        tip={tip}
-        showTipBox={hasMedia}
-        onRevealQuestion={() => setRevealQuestion(true)}
-      />,
+      textBox,
     ],
     'big-image': [
       <div key="visual" className="flex flex-col items-center">
@@ -145,13 +137,7 @@ export default function SectionModule({
           trigger={revealQuestion}
           onAnswer={onAnswer}
         />
-        <TextBox
-          text={text}
-          sourceUrl={sourceUrl}
-          tip={tip}
-          showTipBox={hasMedia}
-          onRevealQuestion={() => setRevealQuestion(true)}
-        />
+        {textBox}
       </div>,
     ],
   } as const;
@@ -168,7 +154,7 @@ export default function SectionModule({
           className="text-2xl font-semibold"
         />
 
-        {/* Flex-Container, Reihenfolge gem. order */}
+        {/* Flex-Container mit dynamischer Reihenfolge */}
         <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:text-left">
           {(renderOrder[order] ?? []).map((el) => el)}
         </div>
@@ -179,9 +165,6 @@ export default function SectionModule({
 
 /* ───────────── Hilfs-Komponenten ───────────── */
 
-/**
- * Text + Quelle + (optionale) Tipp-Infobox
- */
 function TextBox({
   text,
   sourceUrl,
@@ -198,14 +181,12 @@ function TextBox({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-  /* Wenn Text in Sicht kommt, Frage animiert einblenden */
   useEffect(() => {
     if (isInView) onRevealQuestion();
   }, [isInView, onRevealQuestion]);
 
   return (
     <div className="w-full text-left" ref={ref}>
-      {/* Fließtext mit Split-Animation */}
       <SplitText
         text={text}
         className="mb-4 text-base leading-relaxed"
@@ -220,7 +201,6 @@ function TextBox({
         textAlign="left"
       />
 
-      {/* Quellenlink */}
       {sourceUrl && (
         <a
           href={sourceUrl}
@@ -243,7 +223,6 @@ function TextBox({
         </a>
       )}
 
-      {/* Tipp-Infobox, wenn Media vorhanden */}
       {showTipBox && tip && (
         <div className="mt-6 rounded-lg bg-white/5 px-4 py-3 text-sm text-white shadow-inner border border-white/10 backdrop-blur">
           {tip}
@@ -253,16 +232,11 @@ function TextBox({
   );
 }
 
-/**
- * Bildcontainer mit Shadow & Rounded-Corners
- */
 function ImageBox({ src, large = false }: { src: string; large?: boolean }) {
   return (
     <div className="flex w-full max-w-sm flex-shrink-0 justify-center">
       <div
-        className={`w-full overflow-hidden ${
-          large ? 'max-w-lg' : 'max-w-sm'
-        }`}
+        className={`w-full overflow-hidden ${large ? 'max-w-lg' : 'max-w-sm'}`}
       >
         <Image
           src={src}

@@ -9,6 +9,7 @@ import InteractiveGym from '@/components/InteractiveGym';
 import InteractiveFridge from '@/components/InteractiveFridge';
 import InteractiveSleep from '@/components/InteractiveSleep';
 import InteractiveTodo from '@/components/InteractiveTodo';
+import CartoonScrollChat from '@/components/CartoonScrollChat';
 
 type SelectedCharacter = {
   id: string;
@@ -216,7 +217,10 @@ export default function WaySection() {
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            media={<CartoonScrollChat className="mx-auto" />}
+            hideTipBox 
             onAnswer={handleAnswer}
+            
 
             />
           </ScrollFreeze>
