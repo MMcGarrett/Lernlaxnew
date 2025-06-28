@@ -230,7 +230,7 @@ const handleAnswer = ({ questionId, selectedIndex }: { questionId: string; selec
                       selectedIndex,
                     }));
 
-                    const res = await fetch('/api/save', {
+                    const res = await fetch('/api/quiz/save', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ answers: payload }),
@@ -278,7 +278,7 @@ const handleAnswer = ({ questionId, selectedIndex }: { questionId: string; selec
                       selectedIndex,
                     }));
 
-                    const res = await fetch('/api/save', {
+                    const res = await fetch('/api/quiz/save', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ answers: payload }),
@@ -326,7 +326,7 @@ const handleAnswer = ({ questionId, selectedIndex }: { questionId: string; selec
                       selectedIndex,
                     }));
 
-                    const res = await fetch('/api/save', {
+                    const res = await fetch('/api/quiz/save', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ answers: payload }),
