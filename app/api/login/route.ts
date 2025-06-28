@@ -13,7 +13,6 @@ export async function POST(req: Request) {
     )
   }
 
-  // Benutzer finden
   const user = await prisma.user.findFirst({
     where: {
       OR: [
@@ -39,7 +38,27 @@ export async function POST(req: Request) {
     )
   }
 
-  // ✅ Cookie mit userId + firstName
+  // Check: Gibt es eine vorhandene Quiz-Session ohne user_id? 
+  const cookieStore = await cookies()
+  const quizSessionId = cookieStore.get('quizSessionId')?.value
+
+  if (quizSessionId) {
+    try {
+      await prisma.quizSession.updateMany({
+        where: {
+          id: parseInt(quizSessionId, 10),
+          user_id: null,
+        },
+        data: {
+          user_id: user.id,
+        },
+      })
+    } catch (err) {
+      console.error('Fehler beim Verknüpfen der Quiz-Session:', err)
+    }
+  }
+
+  // Cookie mit userId + firstName
   const sessionData = {
     id: user.id,
     firstName: user.first_name,
@@ -60,7 +79,7 @@ export async function POST(req: Request) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: 60 * 60 * 24, // 1 Tag
+    maxAge: 60 * 60 * 24,
   })
 
   return response

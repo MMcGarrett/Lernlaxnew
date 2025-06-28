@@ -56,11 +56,15 @@ export async function POST(req: NextRequest) {
 
     // Cookie mit Session-ID setzen
     const response = NextResponse.json({ success: true, session });
+    response.cookies.set('quizSessionId', '', {
+      path: '/',
+      maxAge: 0, // Cookie löschen
+    });
     response.cookies.set('quizSessionId', String(session.id), {
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 Tage
+      maxAge: 60 * 10,
     });
 
     return NextResponse.json({ success: true, session, resultText });
