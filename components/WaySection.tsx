@@ -257,9 +257,15 @@ export default function WaySection() {
                     });
 
                     if (res.ok) {
+                      const data = await res.json();
+                      Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
                       alert('Antworten erfolgreich gespeichert!');
+
+                      const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
+                      const resultData = await resultRes.json();
+                      if (resultData.result) setResult(resultData.result);
                     } else {
-                      alert('Fehler beim Speichern 😢');
+                      alert('Fehler beim Speichern');
                     }
                   }}
                 >
@@ -305,7 +311,13 @@ export default function WaySection() {
                     });
 
                     if (res.ok) {
+                      const data = await res.json();
+                      Cookies.set('quizSessionId', data.session.id); // falls du’s auch im Client brauchst
                       alert('Antworten erfolgreich gespeichert!');
+
+                      const resultRes = await fetch(`/api/quiz/results?sessionId=${data.session.id}`);
+                      const resultData = await resultRes.json();
+                      if (resultData.result) setResult(resultData.result);
                     } else {
                       alert('Fehler beim Speichern');
                     }
@@ -382,16 +394,16 @@ export default function WaySection() {
                 <div className="w-full bg-white/20 h-4 rounded-full overflow-hidden">
                   <div
                     className={`h-4 ${
-                      selected === 1
+                      selected === 0
                         ? 'bg-red-500 w-1/3'
-                        : selected === 2
+                        : selected === 1
                         ? 'bg-yellow-500 w-2/3'
                         : 'bg-green-500 w-full'
                     }`}
                   ></div>
                 </div>
                 <p className="mt-2 text-sm">
-                  Deine Einschätzung: {selected === 1 ? 'Unteres Drittel' : selected === 2 ? 'Mittelfeld' : 'Oberes Drittel'}
+                  Deine Einschätzung: {selected === 0 ? 'Unteres Drittel' : selected === 1 ? 'Mittelfeld' : 'Oberes Drittel'}
                 </p>
               </div>
             ))}

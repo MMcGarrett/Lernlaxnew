@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     // Cookie mit Session-ID setzen
     const response = NextResponse.json({ success: true, session });
-    response.cookies.set('quiz_session_id', String(session.id), {
+    response.cookies.set('quizSessionId', String(session.id), {
       path: '/',
       httpOnly: true, // Server-only Zugriff
       sameSite: 'lax',
