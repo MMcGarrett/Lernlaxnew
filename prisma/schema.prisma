@@ -73,7 +73,7 @@ model QuizAnswer {
   id           Int          @id @default(autoincrement())
   session_id   Int
   question_id  String
-  selected     Int          // <- war vorher String, jetzt korrekt Int
+  selected     Int          
 
   session      QuizSession  @relation(fields: [session_id], references: [id])
   question     QuizQuestion @relation(fields: [question_id], references: [id])
