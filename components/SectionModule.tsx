@@ -35,6 +35,7 @@ export type SectionModuleProps = {
   characterImg?: string;
   imageSrc?: string;
   media?: ReactNode;
+  onAnswer?: (answer: { questionId: string; selectedIndex: number }) => void;
 };
 
 /* ───────────── Haupt-Komponente ───────────── */
@@ -48,6 +49,7 @@ export default function SectionModule({
   characterImg,
   imageSrc,
   media,
+  onAnswer,
 }: SectionModuleProps) {
   /* Default-Tipp – verallgemeinert */
   const [tip, setTip] = useState('Fahre über einen Punkt für einen Tipp.');
@@ -89,6 +91,7 @@ export default function SectionModule({
         characterImg={characterImg}
         direction="right"
         trigger={revealQuestion}
+        onAnswer={onAnswer}
       />,
     ],
     'text-first': [
@@ -107,6 +110,7 @@ export default function SectionModule({
         characterImg={characterImg}
         direction="right"
         trigger={revealQuestion}
+        onAnswer={onAnswer}
       />,
     ],
     'question-first': [
@@ -116,6 +120,7 @@ export default function SectionModule({
         characterImg={characterImg}
         direction="left"
         trigger={revealQuestion}
+        onAnswer={onAnswer}
       />,
       visual,
       <TextBox
@@ -138,6 +143,7 @@ export default function SectionModule({
           characterImg={characterImg}
           direction="top"
           trigger={revealQuestion}
+          onAnswer={onAnswer}
         />
         <TextBox
           text={text}

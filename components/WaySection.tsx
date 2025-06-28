@@ -17,6 +17,15 @@ type SelectedCharacter = {
 
 export default function WaySection() {
   const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
+  const [answers, setAnswers] = useState<{ [id: string]: number }>({});
+
+const handleAnswer = ({ questionId, selectedIndex }: { questionId: string; selectedIndex: number }) => {
+  setAnswers((prev) => ({ ...prev, [questionId]: selectedIndex }));
+  console.log("Aktuelle Antworten:", answers);
+};
+
+
+
   
   return (
     <section>
@@ -44,6 +53,8 @@ export default function WaySection() {
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveSleep />}
+            onAnswer={handleAnswer}
+
           />
         </ScrollFreeze>
 
@@ -65,6 +76,8 @@ export default function WaySection() {
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
           )}
@@ -86,6 +99,7 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
             </ScrollFreeze>
           )}
@@ -108,6 +122,7 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
             </ScrollFreeze>
           )}
@@ -125,6 +140,8 @@ export default function WaySection() {
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveFridge />} 
+            onAnswer={handleAnswer}
+
             />
         </ScrollFreeze>
 
@@ -142,6 +159,8 @@ export default function WaySection() {
             order="big-image"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveGym />}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
 
@@ -159,6 +178,8 @@ export default function WaySection() {
             order="question-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
             media={<InteractiveTodo />}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
           
@@ -175,6 +196,8 @@ export default function WaySection() {
             }}
             order="text-first"
             characterImg={`/images/characters/${selectedCharacter.id}.png`}
+            onAnswer={handleAnswer}
+
             />
           </ScrollFreeze>
 
@@ -196,7 +219,33 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      alert('Antworten erfolgreich gespeichert!');
+                    } else {
+                      alert('Fehler beim Speichern 😢');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
 
@@ -218,7 +267,33 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      alert('Antworten erfolgreich gespeichert!');
+                    } else {
+                      alert('Fehler beim Speichern');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
 
@@ -240,7 +315,33 @@ export default function WaySection() {
               }}
               order="big-image"
               characterImg={`/images/characters/${selectedCharacter.id}.png`}
+              onAnswer={handleAnswer}
               />
+                <div className="flex justify-center py-10">
+                <button
+                  className="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition"
+                  onClick={async () => {
+                    const payload = Object.entries(answers).map(([questionId, selectedIndex]) => ({
+                      questionId,
+                      selectedIndex,
+                    }));
+
+                    const res = await fetch('/api/save', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ answers: payload }),
+                    });
+
+                    if (res.ok) {
+                      alert('Antworten erfolgreich gespeichert!');
+                    } else {
+                      alert('Fehler beim Speichern 😢');
+                    }
+                  }}
+                >
+                  Antworten speichern
+                </button>
+              </div>
             </ScrollFreeze>
           )}
         </>

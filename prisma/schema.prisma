@@ -61,22 +61,22 @@ model QuizSession {
 }
 
 model QuizQuestion {
-  id       Int       @id
+  id       String      @id
   text     String
-  options  String[]  // z.B. ["3h", "6h", "8h"]
+  options  String[]
   answers  QuizAnswer[]
 
   @@map("quiz_questions")
 }
 
 model QuizAnswer {
-  id           Int           @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   session_id   Int
-  question_id  Int
-  selected     String
+  question_id  String
+  selected     Int          // <- war vorher String, jetzt korrekt Int
 
-  session      QuizSession   @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  question     QuizQuestion  @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  session      QuizSession  @relation(fields: [session_id], references: [id])
+  question     QuizQuestion @relation(fields: [question_id], references: [id])
 
   @@map("quiz_answers")
 }
