@@ -7,9 +7,11 @@ import { useBackgroundColor } from '@/components/MotionBgProvider'
 function ScrollSection({
   children,
   backgroundColor,
+  enableMotion,
 }: {
   children: React.ReactNode
   backgroundColor?: string
+  enableMotion: boolean
 }) {
   const ref = useRef(null)
   const setBg = useBackgroundColor()
@@ -18,7 +20,7 @@ function ScrollSection({
     offset: ['start center', 'end center'],
   })
 
-  const inView = useInView(ref, { amount: 0.5 }) // 50% im Viewport
+  const inView = useInView(ref, { amount: 0.5 })
 
   useEffect(() => {
     if (inView && backgroundColor) {
@@ -27,21 +29,32 @@ function ScrollSection({
   }, [inView, backgroundColor, setBg])
 
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0])
-  const scaleX = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 0.6])
-  const scaleY = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 0.6])
-  const y = useTransform(scrollYProgress, [0, 0.5, 1], [200, 0, -200])
+  const scaleX = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9])
+  const scaleY = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9])
+  const y = useTransform(scrollYProgress, [0, 0.5, 1], [100, 0, -100])
 
   return (
     <section
       ref={ref}
-      className="h-screen snap-start flex items-center justify-center overflow-hidden"
+      className={`${
+        enableMotion ? 'h-screen snap-start' : ''
+      } flex items-center justify-center overflow-hidden`}
     >
-      <motion.div
-        style={{ opacity, scaleX, scaleY, y }}
-        className="w-screen h-screen"
-      >
-        {children}
-      </motion.div>
+      {enableMotion ? (
+        <motion.div
+          style={{
+            opacity,
+            scaleX,
+            scaleY,
+            y,
+          }}
+          className="w-screen h-screen"
+        >
+          {children}
+        </motion.div>
+      ) : (
+        <div className="w-full py-16">{children}</div>
+      )}
     </section>
   )
 }
@@ -53,31 +66,19 @@ export default function ScrollFreeze({
   children: React.ReactNode
   backgroundColor?: string
 }) {
-  const [isLargeScreen, setIsLargeScreen] = useState(true)
+  const [enableMotion, setEnableMotion] = useState(true)
 
   useEffect(() => {
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth >= 1500)
-    }
-
-    checkScreenSize()
-    window.addEventListener('resize', checkScreenSize)
-    return () => window.removeEventListener('resize', checkScreenSize)
+    const check = () => setEnableMotion(window.innerWidth >= 1500)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
   }, [])
 
-  if (!isLargeScreen) {
-    // Statischer Fallback für kleinere Screens
-    return (
-      <div className="bg-[#324F4A] w-full">
-        <div className="py-16">{children}</div>
-      </div>
-    )
-  }
-
   return (
-    <div className="h-[170vh] relative">
-      <div className="sticky top-0 h-screen flex items-center justify-center">
-        <ScrollSection backgroundColor={backgroundColor}>
+    <div className={`relative ${enableMotion ? 'h-[170vh]' : ''}`}>
+      <div className={`${enableMotion ? 'sticky top-0 h-screen' : ''} flex items-center justify-center`}>
+        <ScrollSection backgroundColor={backgroundColor} enableMotion={enableMotion}>
           {children}
         </ScrollSection>
       </div>
