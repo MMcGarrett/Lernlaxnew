@@ -21,7 +21,11 @@ export async function POST(req: Request) {
   });
 
   if (existingUser) {
-    return NextResponse.json({ error: 'Benutzer existiert bereits.' }, { status: 400 });
+    if (existingUser.email === email) {
+      return NextResponse.json({ error: 'E-Mail-Adresse wird bereits verwendet.' }, { status: 400 });
+    } else {
+      return NextResponse.json({ error: 'Benutzername ist bereits vergeben.' }, { status: 400 });
+    }
   }
 
   const password_hash = await bcrypt.hash(password, 10);
