@@ -54,12 +54,12 @@ export async function POST(req: NextRequest) {
       include: { answers: true, result: true }
     });
 
-    // Cookie mit Session-ID setzen
     const response = NextResponse.json({ success: true, session });
     response.cookies.set('quizSessionId', '', {
       path: '/',
       maxAge: 0, // Cookie löschen
     });
+    // Cookie mit Session-ID setzen
     response.cookies.set('quizSessionId', String(session.id), {
       path: '/',
       httpOnly: true,

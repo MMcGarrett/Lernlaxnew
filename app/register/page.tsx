@@ -40,12 +40,10 @@ export default function RegisterPage() {
 
   return (
     <div className="relative flex flex-col min-h-screen bg-[#1b2c29] text-white">
-      {/* Logo oben rechts – 60px Abstand */}
       <div className="absolute top-[60px] right-[60px] z-50">
         <HeaderLogo />
       </div>
 
-      {/* Überschrift oben links – 60px Abstand */}
       <h1 className="absolute top-[30px] left-[60px] z-50 text-2xl sm:text-3xl md:text-4xl font-bold leading-none tracking-wide text-left">
         Registrieren
       </h1>

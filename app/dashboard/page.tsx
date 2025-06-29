@@ -37,7 +37,7 @@ export default async function DashboardPage() {
 
   const avatarUrl = `/${(dbUser.avatar_url || 'Avatare_M/Luca.png').replace(/^\/+/, '')}`;
 
-  // 🧠 Neu: Letzten Quiz-Ergebnistext holen
+  // Letzten Quiz-Ergebnistext holen
   const lastResult = await prisma.quizSession.findFirst({
     where: {
       user_id: sessionUser.id,

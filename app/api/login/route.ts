@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     )
   }
 
-  // Check: Gibt es eine vorhandene Quiz-Session ohne user_id? 
+  // Check QuizSession
   const cookieStore = await cookies()
   const quizSessionId = cookieStore.get('quizSessionId')?.value
 

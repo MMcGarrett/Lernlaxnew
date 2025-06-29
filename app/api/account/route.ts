@@ -21,7 +21,7 @@ export async function PUT(req: Request) {
   const body = await req.json()
   const { username, firstname, lastname, avatar_url } = body
 
-  // Nur Avatar ändern
+  // Avatar
   if (typeof avatar_url === 'string' && !username && !firstname && !lastname) {
     try {
       await prisma.user.update({
@@ -34,7 +34,7 @@ export async function PUT(req: Request) {
     }
   }
 
-  // Nur Profil ändern
+  // Profil
   if (
     typeof username === 'string' &&
     typeof firstname === 'string' &&

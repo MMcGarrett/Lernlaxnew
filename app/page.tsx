@@ -6,8 +6,6 @@ import HeaderLogo from "@/components/HeaderLogo";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ChallengesSection from "@/components/Challenges";
-import CharacterSelection from "@/components/CharacterSelection";
-import SectionModule from "@/components/SectionModule";
 import ToolsResourcesSection from "@/components/ToolsResourcesSection";
 import InspirationSection from "@/components/InspirationSection";
 import WaySection from "@/components/WaySection";

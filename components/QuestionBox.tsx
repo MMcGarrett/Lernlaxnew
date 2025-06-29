@@ -80,7 +80,7 @@ export default function AnimatedQuestionBox({
   characterImg,
   direction = 'bottom',
   trigger = false,
-  onAnswer, // ✅ wird hier übergeben
+  onAnswer,
 }: Props) {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 

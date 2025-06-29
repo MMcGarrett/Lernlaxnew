@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 
-// Gibt UTC-Datum zurück, das Mitternacht in Europe/Berlin entspricht
 function getGermanMidnightDate(): Date {
   const now = new Date()
   const germanDateString = new Intl.DateTimeFormat('de-DE', {

@@ -35,7 +35,7 @@ export type SectionModuleProps = {
   characterImg?: string;
   imageSrc?: string;
   media?: ReactNode;
-  hideTipBox?: boolean;           // 🔄 NEU
+  hideTipBox?: boolean;
   onAnswer?: (answer: { questionId: string; selectedIndex: number }) => void;
 };
 
@@ -50,7 +50,7 @@ export default function SectionModule({
   characterImg,
   imageSrc,
   media,
-  hideTipBox = false,             // 🔄 default = anzeigen
+  hideTipBox = false,
   onAnswer,
 }: SectionModuleProps) {
   const [tip, setTip] = useState('Fahre über einen Punkt für einen Tipp.');
@@ -81,7 +81,7 @@ export default function SectionModule({
       text={text}
       sourceUrl={sourceUrl}
       tip={tip}
-      showTipBox={hasMedia && !hideTipBox}   // 🔄 nur anzeigen, wenn erlaubt
+      showTipBox={hasMedia && !hideTipBox}
       onRevealQuestion={() => setRevealQuestion(true)}
     />
   );

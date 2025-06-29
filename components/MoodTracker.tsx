@@ -75,7 +75,7 @@ export default function MoodTracker({ firstName }: { firstName: string }) {
       setNote('')
       setRating(5)
       setError(null)
-      setSubmitted(prev => !prev) // <- Trigger useEffect erneut
+      setSubmitted(prev => !prev)
     } else {
       setError(result.error || 'Fehler beim Speichern')
     }
